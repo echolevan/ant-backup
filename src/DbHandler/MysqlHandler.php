@@ -50,7 +50,7 @@ class MysqlHandler implements DbHandler
     public function DbBackup($data)
     {
         $content = "/* 数据库{$data['db_name']}备份" . date('Y-m-d H:i:s') . "   */";
-        $stmt = $this->connection->prepare("SHOW TABLE STATUS FROM {$data['db_name']}");
+        $stmt = $this->connection->prepare("SHOW TABLE STATUS FROM `{$data['db_name']}`");
         $stmt->execute();
         $all_tables = $stmt->fetchAll(\PDO::FETCH_ASSOC); // get all tables
 
