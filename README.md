@@ -1,9 +1,9 @@
 ## ant-backup
-quickly backup your database
+hsl quickly backup your database
 
 ## 安装
 ```
-composer require caroltc/ant-backup
+composer require echolevan/hsl-backup
 ```
 
 ### 使用示例
@@ -17,6 +17,7 @@ $data = array(
             'db_name' => 'ctbms_db',
             'db_port' => '3306',
             'db_charset' => 'UTF-8',
+            'ignore'=> ['telescope_entries', 'telescope_entries_tags', 'telescope_monitoring'],
             'file_path' => '/phpstudy/www/BMS_3.0/data/backup', // 需读写权限
             'file_name' => '', // 可为空
             'gz_write' => true  // 是否开启gzip压缩,需gzip拓展
@@ -35,15 +36,3 @@ $data = array(
         $rs = $BC->dbRecover('20170208162648_backup.gz');
         var_dump($rs);
 ```
-
-### 开发计划
-
-- 基本备份[已完成]
-- 基本恢复[已完成]
-- 备份压缩[已完成]
-- 从压缩文件恢复[已完成]
-- 下载备份
-- 上传备份恢复
-- 邮件备份
-- 设置备份最大数量
-- 指定表备份

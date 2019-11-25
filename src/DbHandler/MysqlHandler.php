@@ -15,6 +15,8 @@ class MysqlHandler implements DbHandler
     private $db = "";
     private $port = "3306";
     private $charset = "UTF-8";
+    private $ignore = [];
+
     /**
      * @var \PDO
      */
@@ -28,6 +30,7 @@ class MysqlHandler implements DbHandler
         $this->db = $datas['db'];
         $this->port = $datas['port'];
         $this->charset = $datas['charset'];
+        $this->ignore = $datas['ignore'];
         $this->getConnection();
     }
 
@@ -50,11 +53,15 @@ class MysqlHandler implements DbHandler
         $stmt = $this->connection->prepare("SHOW TABLE STATUS FROM {$data['db_name']}");
         $stmt->execute();
         $all_tables = $stmt->fetchAll(\PDO::FETCH_ASSOC); // get all tables
+
         if (empty($all_tables)) {
             throw new \Exception('no tables');
         }
         foreach ($all_tables as $table_data) {
             $table_name = $table_data['Name'];
+            if (in_array($table_name, $this->ignore)) {
+                continue;
+            }
             $stmt_tb = $this->connection->prepare("SHOW CREATE TABLE {$table_name}");
             $stmt_tb->execute();
             $create_datas = $stmt_tb->fetchAll(\PDO::FETCH_ASSOC);

@@ -1,5 +1,7 @@
 <?php
+
 namespace AntBackup;
+
 use AntBackup\DbHandler\DbHandler;
 use AntBackup\DbHandler\MysqlHandler;
 use AntBackup\Reader\FileReader;
@@ -26,6 +28,7 @@ class AntBackup
     public $file_path = '';
     public $file_name = '';
     public $gz_write = false;
+    public $ignore = [];
     /**
      * @var Writer
      */
@@ -52,6 +55,7 @@ class AntBackup
         $this->file_path = isset($data['file_path']) ? $data['file_path'] : '';
         $this->file_name = isset($data['file_name']) ? $data['file_name'] : '';
         $this->gz_write = isset($data['gz_write']) ? $data['gz_write'] : $this->gz_write;
+        $this->ignore = isset($data['ignore']) ? $data['ignore'] : $this->ignore;
 
         $this->getDbHander();
         $this->getWriter();
@@ -106,7 +110,8 @@ class AntBackup
                 'host' => $this->db_host,
                 'db' => $this->db_name,
                 'port' => $this->db_port,
-                'charset' => $this->db_charset
+                'charset' => $this->db_charset,
+                'ignore' => $this->ignore
             );
             $this->DbHandler->setConfig($config);
         }
